@@ -1,0 +1,17 @@
+authors: AutoRML
+
+sources:
+  sem-table: '[Y3OHOKFF-semantic.csv~csv]'
+  table: '[Y3OHOKFF.csv~csv]'
+
+mappings:
+  column1TM:
+    sources:
+      - sem-table
+  column2TM:
+    sources:
+      - sem-table
+  subjectTM:
+    sources:
+      - sem-table
+
