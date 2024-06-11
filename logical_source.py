@@ -1,20 +1,39 @@
 import pandas as pd
 import os
+from ruamel.yaml.scalarstring import PreservedScalarString
 
 def define_source(mappings, table, cea):
 
-    if cea == []:
-        mappings["sources"] = {"table": "[{}~csv]".format(table)}
-    else:
-        generate_sem_table(table, cea)
-        mappings["sources"] = {"table": "[{}~csv]".format(table),
-                               "sem-table": "[{}~csv]".format(table.replace(".","-semantic."))}
-
-    return mappings
-
-def generate_sem_table(table, cea):
-
     df = pd.read_csv(table)
+    col_names = df.columns.to_list()
+
+    if cea == []:
+        mappings["sources"] = {}
+
+        mappings["sources"]["table"] = {}
+        mappings["sources"]["table"]["access"] = table
+        mappings["sources"]["table"]["referenceFormulation"] = "csv"
+        mappings["sources"]["table"]["iterator"] = "$"
+        #"[{}~csv, $]".format(table)
+    else:
+        generate_sem_table(table, df, cea)
+        mappings["sources"] = {}
+
+        mappings["sources"]["table"] = {}
+        mappings["sources"]["table"]["access"] = table
+        mappings["sources"]["table"]["referenceFormulation"] = "csv"
+        mappings["sources"]["table"]["iterator"] = "$"
+
+        mappings["sources"]["sem-table"] = {}
+        mappings["sources"]["sem-table"]["access"] = table.replace(".","-semantic.")
+        mappings["sources"]["sem-table"]["referenceFormulation"] = "csv"
+        mappings["sources"]["sem-table"]["iterator"] = "$"
+
+    return mappings, col_names
+
+def generate_sem_table(table, df, cea):
+
+    
     for col_idx, row_idx, value in cea:
         df.iat[int(row_idx), int(col_idx)] = value
 

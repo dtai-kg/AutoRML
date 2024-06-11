@@ -1,17 +1,34 @@
 authors: AutoRML
 
 sources:
-  sem-table: '[Y3OHOKFF-semantic.csv~csv]'
-  table: '[Y3OHOKFF.csv~csv]'
+  table:
+    access: Y3OHOKFF.csv
+    referenceFormulation: csv
+    iterator: $
 
 mappings:
-  column1TM:
-    sources:
-      - sem-table
-  column2TM:
-    sources:
-      - sem-table
   subjectTM:
     sources:
-      - sem-table
+      - table
+    po:
+      - p: a
+        o: http://example.com/entityType/subjectType
+      - p: http://example.com/property/s-col0
+        o: http://example.com/entity/$(col0)
+      - p: http://example.com/property/s-col1
+        o: http://example.com/entity/$(col1)
+      - p: http://example.com/property/s-col2
+        o: http://example.com/entity/$(col2)
+  col0TM:
+    sources:
+      - table
+    s: http://example.com/entity/$(col0)
+  col1TM:
+    sources:
+      - table
+    s: http://example.com/entity/$(col1)
+  col2TM:
+    sources:
+      - table
+    s: http://example.com/entity/$(col2)
 
