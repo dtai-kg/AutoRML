@@ -2,8 +2,9 @@ from logical_source import define_source
 from term_maps import define_term_maps
 
 from ruamel.yaml import YAML
+import yatter
 
-def mapping_synthesis(table, yarrrml_output_location, rml_output_location,
+def mapping_synthesis(table, yarrrml_output_location,
                       subject_column, primary_annotations, secondary_annotations, 
                       cea, cpa, cta, cqa):
     
@@ -25,6 +26,19 @@ def mapping_synthesis(table, yarrrml_output_location, rml_output_location,
         for section in mappings:
             yaml.dump({section: mappings[section]}, file, )
             file.write('\n')
+
+    print("YARRRML mappings succesfully created!")
     
+    return
+
+def rml_generation(yarrrml_output_location, rml_output_location):
+
+    yaml = YAML(typ='safe', pure=True)
+    rml_content = yatter.translate(yaml.load(open(yarrrml_output_location)))
+    
+    output_file = open(rml_output_location, "w")
+    output_file.write(rml_content)
+    output_file.close()
+    print("RML mappings succesfully created!")
 
     return

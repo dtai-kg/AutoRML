@@ -5,30 +5,39 @@ sources:
     access: Y3OHOKFF.csv
     referenceFormulation: csv
     iterator: $
+  sem-table:
+    access: Y3OHOKFF-semantic.csv
+    referenceFormulation: csv
+    iterator: $
 
 mappings:
   subjectTM:
     sources:
-      - table
+      - sem-table
+    s: $(col0)
     po:
       - p: a
-        o: http://example.com/entityType/subjectType
-      - p: http://example.com/property/s-col0
-        o: http://example.com/entity/$(col0)
-      - p: http://example.com/property/s-col1
-        o: http://example.com/entity/$(col1)
-      - p: http://example.com/property/s-col2
-        o: http://example.com/entity/$(col2)
-  col0TM:
-    sources:
-      - table
-    s: http://example.com/entity/$(col0)
+        o: http://www.wikidata.org/entity/Q25110269
+      - p: http://www.wikidata.org/prop/direct/P2061
+        o:
+          - value: $(col1)
+            type: iri
+      - p: http://www.wikidata.org/prop/direct/P144
+        o:
+          - value: $(col2)
+            type: iri
   col1TM:
     sources:
-      - table
-    s: http://example.com/entity/$(col1)
+      - sem-table
+    s: $(col1)
+    po:
+      - p: a
+        o: http://www.wikidata.org/entity/Q20970434
   col2TM:
     sources:
-      - table
-    s: http://example.com/entity/$(col2)
+      - sem-table
+    s: $(col2)
+    po:
+      - p: a
+        o: http://www.wikidata.org/entity/Q7725634
 

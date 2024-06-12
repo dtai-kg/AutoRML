@@ -14,7 +14,7 @@ def define_source(mappings, table, cea):
         mappings["sources"]["table"]["access"] = table
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
-        #"[{}~csv, $]".format(table)
+    
     else:
         generate_sem_table(table, df, cea)
         mappings["sources"] = {}
@@ -33,10 +33,10 @@ def define_source(mappings, table, cea):
 
 def generate_sem_table(table, df, cea):
 
-    
     for col_idx, row_idx, value in cea:
         df.iat[int(row_idx), int(col_idx)] = value
 
     table_folder = os.path.dirname(table)
-    print(table_folder)
     df.to_csv(table_folder + '{}-semantic.csv'.format(table.split(".")[0]), index=False)
+
+    return

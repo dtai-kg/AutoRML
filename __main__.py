@@ -1,5 +1,5 @@
 from annotate import annotate_torchic_tab
-from mapping_synthesis import mapping_synthesis
+from mapping_synthesis import mapping_synthesis, rml_generation
 
 import argparse
 import os
@@ -48,6 +48,10 @@ if __name__ == "__main__":
 
     mapping_synthesis(args.input_table, 
                       os.path.join(args.mappings_folder, args.yarrml_output), 
-                      os.path.join(args.mappings_folder, args.rml_output),
                       subject_column, primary_annotations, secondary_annotations, 
                       cea, cpa, cta, cqa)
+    
+    rml_generation(os.path.join(args.mappings_folder, args.yarrml_output), 
+                   os.path.join(args.mappings_folder, args.rml_output))
+    
+    
