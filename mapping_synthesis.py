@@ -29,7 +29,7 @@ def mapping_synthesis(table, yarrrml_output_location,
 
     print("YARRRML mappings succesfully created!")
     
-    return
+    return 
 
 def rml_generation(yarrrml_output_location, rml_output_location):
 

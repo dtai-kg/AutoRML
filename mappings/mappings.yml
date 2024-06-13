@@ -2,42 +2,38 @@ authors: AutoRML
 
 sources:
   table:
-    access: Y3OHOKFF.csv
-    referenceFormulation: csv
-    iterator: $
-  sem-table:
-    access: Y3OHOKFF-semantic.csv
+    access: /Users/ioannisdasoulas/Desktop/KGCA/AutoRML/Y3OHOKFF.csv
     referenceFormulation: csv
     iterator: $
 
 mappings:
   subjectTM:
     sources:
-      - sem-table
-    s: $(col0)
+      - table
+    s: http://example.com/entity/$(col0)
     po:
       - p: a
-        o: http://www.wikidata.org/entity/Q25110269
-      - p: http://www.wikidata.org/prop/direct/P2061
+        o: http://example.com/entityType/subjectType
+      - p: http://example.com/property/s-col1
         o:
-          - value: $(col1)
+          - value: http://example.com/entity/$(col1)
             type: iri
-      - p: http://www.wikidata.org/prop/direct/P144
+      - p: http://example.com/property/s-col2
         o:
-          - value: $(col2)
+          - value: http://example.com/entity/$(col2)
             type: iri
   col1TM:
     sources:
-      - sem-table
-    s: $(col1)
+      - table
+    s: http://example.com/entity/$(col1)
     po:
       - p: a
-        o: http://www.wikidata.org/entity/Q20970434
+        o: http://example.com/entityType/col1
   col2TM:
     sources:
-      - sem-table
-    s: $(col2)
+      - table
+    s: http://example.com/entity/$(col2)
     po:
       - p: a
-        o: http://www.wikidata.org/entity/Q7725634
+        o: http://example.com/entityType/col2
 

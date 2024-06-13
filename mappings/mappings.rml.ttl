@@ -19,13 +19,13 @@
 
 	rml:logicalSource [
 		a rml:LogicalSource;
-		rml:source "Y3OHOKFF-semantic.csv";
+		rml:source "/Users/ioannisdasoulas/Desktop/KGCA/AutoRML/Y3OHOKFF.csv";
 		rml:referenceFormulation ql:CSV;
 		rml:iterator "$"
 	];
 	rr:subjectMap [
 		a rr:SubjectMap;
-		rml:reference "col0";
+		rr:template "http://example.com/entity/{col0}";
 	];
 	rr:predicateObjectMap [
 		rr:predicateMap [
@@ -34,28 +34,28 @@
 		];
 		rr:objectMap [
 			a rr:ObjectMap;
-			rr:constant <http://www.wikidata.org/entity/Q25110269>;
+			rr:constant <http://example.com/entityType/subjectType>;
 		];
 	];
 	rr:predicateObjectMap [
 		rr:predicateMap [
 			a rr:PredicateMap;
-			rr:constant <http://www.wikidata.org/prop/direct/P2061>;
+			rr:constant <http://example.com/property/s-col1>;
 		];
 		rr:objectMap [
 			a rr:ObjectMap;
-			rml:reference "col1";
+			rr:template "http://example.com/entity/{col1}";
 			rr:termType rr:IRI
 		];
 	];
 	rr:predicateObjectMap [
 		rr:predicateMap [
 			a rr:PredicateMap;
-			rr:constant <http://www.wikidata.org/prop/direct/P144>;
+			rr:constant <http://example.com/property/s-col2>;
 		];
 		rr:objectMap [
 			a rr:ObjectMap;
-			rml:reference "col2";
+			rr:template "http://example.com/entity/{col2}";
 			rr:termType rr:IRI
 		];
 	].
@@ -65,13 +65,13 @@
 
 	rml:logicalSource [
 		a rml:LogicalSource;
-		rml:source "Y3OHOKFF-semantic.csv";
+		rml:source "/Users/ioannisdasoulas/Desktop/KGCA/AutoRML/Y3OHOKFF.csv";
 		rml:referenceFormulation ql:CSV;
 		rml:iterator "$"
 	];
 	rr:subjectMap [
 		a rr:SubjectMap;
-		rml:reference "col1";
+		rr:template "http://example.com/entity/{col1}";
 	];
 	rr:predicateObjectMap [
 		rr:predicateMap [
@@ -80,7 +80,7 @@
 		];
 		rr:objectMap [
 			a rr:ObjectMap;
-			rr:constant <http://www.wikidata.org/entity/Q20970434>;
+			rr:constant <http://example.com/entityType/col1>;
 		];
 	].
 
@@ -89,13 +89,13 @@
 
 	rml:logicalSource [
 		a rml:LogicalSource;
-		rml:source "Y3OHOKFF-semantic.csv";
+		rml:source "/Users/ioannisdasoulas/Desktop/KGCA/AutoRML/Y3OHOKFF.csv";
 		rml:referenceFormulation ql:CSV;
 		rml:iterator "$"
 	];
 	rr:subjectMap [
 		a rr:SubjectMap;
-		rml:reference "col2";
+		rr:template "http://example.com/entity/{col2}";
 	];
 	rr:predicateObjectMap [
 		rr:predicateMap [
@@ -104,7 +104,7 @@
 		];
 		rr:objectMap [
 			a rr:ObjectMap;
-			rr:constant <http://www.wikidata.org/entity/Q7725634>;
+			rr:constant <http://example.com/entityType/col2>;
 		];
 	].
 

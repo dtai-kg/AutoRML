@@ -4,6 +4,7 @@ def define_subject_column_subject_map(subjectTM, subject_column, secondary_annot
     #If no Subject Column within table, no subject defined which 
     # will lead to the creation of blank nodes for subject
     if subject_column == -1 or subject_column is None:
+        subjectTM["s"] = [{"value": "Blank", "type": "blank"}]
         return subjectTM
     
     #Define the reference of the subject column(s) in YARRRML

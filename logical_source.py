@@ -11,21 +11,22 @@ def define_source(mappings, table, cea):
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = table
+        mappings["sources"]["table"]["access"] = os.path.abspath(table)
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
     
     else:
-        generate_sem_table(table, df, cea)
+        df = generate_sem_table(table, df, cea)
+
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = table
+        mappings["sources"]["table"]["access"] = os.path.abspath(table)
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
 
         mappings["sources"]["sem-table"] = {}
-        mappings["sources"]["sem-table"]["access"] = table.replace(".","-semantic.")
+        mappings["sources"]["sem-table"]["access"] = os.path.abspath(table.replace(".","-semantic."))
         mappings["sources"]["sem-table"]["referenceFormulation"] = "csv"
         mappings["sources"]["sem-table"]["iterator"] = "$"
 
@@ -39,4 +40,4 @@ def generate_sem_table(table, df, cea):
     table_folder = os.path.dirname(table)
     df.to_csv(table_folder + '{}-semantic.csv'.format(table.split(".")[0]), index=False)
 
-    return
+    return 
