@@ -1,7 +1,7 @@
-from torchic_tab_heuristic.task_calculation_wd import generate_annotations
+from torchic_tab_heuristic.task_calculation_wd import generate_annotations #Closed source. Contact for access
 
 #Call of TorchicTab to extract tabular annotations for a given table
-def annotate_torchic_tab(file):
+def torchic_tab(file):
 
     # (subject_column, primary_annotations, secondary_annotations, 
     # cea_annotations, cpa_annotations, cta_annotations) = generate_annotations(file)

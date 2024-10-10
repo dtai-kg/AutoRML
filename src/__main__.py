@@ -1,4 +1,4 @@
-from annotate import annotate_torchic_tab
+from annotation.torchic_tab import torchic_tab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # TorchicTab system is used, other annotation systems can be imported as well
     print("Annotating table using TorchicTab:", args.input_table, "...")
     (subject_column, primary_annotations, secondary_annotations, 
-    cea, cpa, cta, cqa) = annotate_torchic_tab(args.input_table)
+    cea, cpa, cta, cqa) = torchic_tab(args.input_table)
     print("Tabular annotation completed!\n")
 
     if not os.path.exists(args.mappings_folder):
@@ -62,6 +62,7 @@ if __name__ == "__main__":
     
     rml_generation(os.path.join(args.mappings_folder, args.yarrml_output), 
                    os.path.join(args.mappings_folder, args.rml_output))
+    print("\nYARRRML and RML mappings succesfully generated!")
     
     if(args.materialize):
 
@@ -70,5 +71,5 @@ if __name__ == "__main__":
             print(f"Folder '{args.rdf_folder}' created.")
 
         rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))))
-    
+        print("\nRDF graph succesfully generated!")
 

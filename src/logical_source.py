@@ -38,6 +38,6 @@ def generate_sem_table(table, df, cea):
         df.iat[int(row_idx), int(col_idx)] = value
 
     table_folder = os.path.dirname(table)
-    df.to_csv(table_folder + '{}-semantic.csv'.format(table.split(".")[0]), index=False)
+    df.to_csv(table_folder + '{}-semantic.csv'.format(table.split(".")[0].split("/")[-1]), index=False)
 
     return 
