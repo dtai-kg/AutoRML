@@ -1,4 +1,5 @@
 from annotation.torchic_tab import torchic_tab
+from annotation.mtab import mtab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation
 
@@ -47,8 +48,7 @@ if __name__ == "__main__":
     # Extract annotations from Semantic Annotation System
     # TorchicTab system is used, other annotation systems can be imported as well
     print("Annotating table using TorchicTab:", args.input_table, "...")
-    (subject_column, primary_annotations, secondary_annotations, 
-    cea, cpa, cta, cqa) = torchic_tab(args.input_table)
+    (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = mtab(args.input_table)
     print("Tabular annotation completed!\n")
 
     if not os.path.exists(args.mappings_folder):

@@ -66,7 +66,11 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                 # This can be manually replaced with a template, according to the use case.
                 # If datatypes are also available we can add them as well.
                 xsd_type = map_datatype_to_xsd(secondary_annotations[i])
-                subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                if xsd_type is None:
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                                            "o": [{"value":  "$({})".format(col_names[i])}]})
+                else:
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
                                             "o": [{"value":  "$({})".format(col_names[i]), 
                                                    "datatype": xsd_type}]})
                 
@@ -83,18 +87,18 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
 
                     # If a Named Entity Object Column is of type IRI, we can use its IRIs as reference
                     # to define the object maps
-                    if primary_annotations[o] == "NE" and secondary_annotations[o] == "URL" and cea==[]:
+                    if primary_annotations[int(o)] == "NE" and secondary_annotations[int(o)] == "URL" and cea==[]:
                         subjectTM["po"].append({"p": p, 
-                                                "o": "$({})~iri".format(col_names[o])})
+                                                "o": "$({})~iri".format(col_names[int(o)])})
                         continue
 
                     # If the Object Column is a Named Entity Column
-                    if primary_annotations[o] == "NE":
+                    if primary_annotations[int(o)] == "NE":
 
                         #If CEA are available, a reference to the annotation IRIs is used
                         if cea:
                             subjectTM["po"].append({"p": p, 
-                                                    "o": [{"value": "$({})".format(col_names[o]), 
+                                                    "o": [{"value": "$({})".format(col_names[int(o)]), 
                                                            "type": "iri"}]})
                         
                         #If CEA are not available, a dummy template value is used 
@@ -102,18 +106,22 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                         # or a mapping function that calls a service for retrieving CEA
                         else:
                             subjectTM["po"].append({"p": p, 
-                                                    "o": [{"value": entity_template_prefix + "$({})".format(col_names[o]), 
+                                                    "o": [{"value": entity_template_prefix + "$({})".format(col_names[int(o)]), 
                                                            "type": "iri"}]})
                             
                     # If the Object Column is a Literal Column
-                    elif primary_annotations[o] == "L":
+                    elif primary_annotations[int(o)] == "L":
 
                         # For literal columns we can add a reference to the column.
                         # This can be manually replaced with a template, according to the use case.
                         # If datatypes are also available we can add them as well.
-                        xsd_type = map_datatype_to_xsd(secondary_annotations[o])
-                        subjectTM["po"].append({"p": p, 
-                                                "o": [{"value":  "$({})".format(col_names[o]), 
+                        xsd_type = map_datatype_to_xsd(secondary_annotations[int(o)])
+                        if xsd_type is None:
+                            subjectTM["po"].append({"p": p, 
+                                                "o": [{"value":  "$({})".format(col_names[int(o)])}]})
+                        else:
+                            subjectTM["po"].append({"p": p, 
+                                                "o": [{"value":  "$({})".format(col_names[int(o)]), 
                                                        "datatype": xsd_type}]})
                         
         
@@ -155,7 +163,11 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                     # This can be manually replaced with a template, according to the use case.
                     # If datatypes are also available we can add them as well.
                     xsd_type = map_datatype_to_xsd(secondary_annotations[i])
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                    if xsd_type is None:
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                                                "o": [{"value":  "$({})".format(col_names[i])}]})
+                    else:
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
                                                 "o": [{"value":  "$({})".format(col_names[i]), 
                                                     "datatype": xsd_type}]})
             
@@ -194,7 +206,7 @@ def define_object_column_po_map(objectTM, column, cta, col_name):
 
 def map_datatype_to_xsd(secondary_annotation):
 
-    default_datatype = "xsd:string"
+    default_datatype = None
 
     #Mapping of common secondary annotation to xsd datatypes
     xsd_mappings = {

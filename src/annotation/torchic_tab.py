@@ -9,8 +9,8 @@ def torchic_tab(file):
     # Test Annotations
     (subject_column, primary_annotations, secondary_annotations, 
     cea, cpa, cta, cqa) = (0, #subject_column_index
-                           ['NE', 'NE', 'NE'], #named_entity_columns_index
-                           ['NE', 'CARDINAL', 'NE'], #datatype_index (for literal columns)
+                           ['NE', 'L', 'NE'], #named_entity_columns_index
+                           ['NE', 'Unknown', 'NE'], #datatype_index (for literal columns)
                            [['0', '0', 'http://www.wikidata.org/entity/Q15865202'], 
                             ['0', '1', 'http://www.wikidata.org/entity/Q56850065'], 
                             ['1', '0', 'http://www.wikidata.org/entity/Q20970432'], 
