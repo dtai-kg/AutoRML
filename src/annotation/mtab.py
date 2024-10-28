@@ -33,10 +33,12 @@ def mtab(file):
     if retrieve_success == True:
         # Parse the JSON response (assuming the API returns JSON)
         annotations = response.json()
+        #print(annotations)
         if annotations["tables"][0]["status"] == "Error":
             #print("Error")
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = mtab(file)
-        (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = standard_annotation_formatter(annotations)
+        else:
+            (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = standard_annotation_formatter(annotations)
     else:
         sys.exit(f"Failed to annotate. Status code: {response.status_code}, Response: {response.text}")
 
@@ -78,9 +80,44 @@ def standard_annotation_formatter(annotations):
             primary_annotations[i] = "NE"
             secondary_annotations[i] = "NE"
 
+    
+    new_cpa = fill_missing_properties(new_cpa, subject_column, primary_annotations)
+    new_cta = fill_missing_types(new_cta, primary_annotations)
     cqa = []
+
     print(subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
     return (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
 
-# file = "/Users/ioannisdasoulas/Desktop/AutoRML/Data/Y3OHOKFF.csv"
-# mtab(file)
+def fill_missing_properties(cpa, subject_column, primary_annotations):
+
+    object_columns = []
+    for i in range(len(primary_annotations)):
+        if i != subject_column:
+            object_columns.append(i)
+
+    object_columns_with_properies = []
+    for property_annotation in cpa:
+        object_columns_with_properies.append(int(property_annotation[1]))
+
+    object_columns_without_properties = [item for item in object_columns if item not in object_columns_with_properies]
+    for object_column in object_columns_without_properties:
+        cpa.append([str(subject_column), str(object_column), None])
+
+    return cpa
+
+def fill_missing_types(cta, primary_annotations):
+
+    ne_cols = []
+    for i in range(len(primary_annotations)):
+        if primary_annotations[i] == "NE":
+            ne_cols.append(i)
+
+    ne_cols_with_type = []
+    for type_annotation in cta:
+        ne_cols_with_type.append(int(type_annotation[0]))
+
+    ne_cols_without_type = [item for item in ne_cols if item not in ne_cols_with_type]
+    for ne_column in ne_cols_without_type:
+        cta.append([str(ne_column), None])
+
+    return cta

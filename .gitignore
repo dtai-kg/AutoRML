@@ -1,4 +1,5 @@
 __pycache__
 .DS_Store
-Y3OHOKFF.csv
-Y3OHOKFF-semantic.csv
+evaluations/data_collections
+evaluations/mappings
+evaluations/rdf

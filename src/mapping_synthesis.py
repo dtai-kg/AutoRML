@@ -14,7 +14,7 @@ def mapping_synthesis(table, yarrrml_output_location,
     yaml.indent(mapping=2, sequence=4, offset=2)
 
     mappings = {"authors": "AutoRML"}
-    mappings, col_names = define_source(mappings, table, cea)
+    mappings, col_names = define_source(mappings, table, cea, primary_annotations)
     mappings = define_term_maps(mappings, 
                                 subject_column, primary_annotations, secondary_annotations, 
                                 cea, cpa, cta,

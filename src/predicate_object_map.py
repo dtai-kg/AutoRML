@@ -82,6 +82,10 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
         if cpa:
 
             for s, o, p in cpa: 
+                
+                # Check for missing annotations
+                if p is None or p[-3:] == "/P1":
+                    p = property_template_prefix + "{}-{}".format(col_names[int(s)], col_names[int(o)])
 
                 if int(s) in subject_column:
 
