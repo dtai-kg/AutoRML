@@ -44,7 +44,7 @@ def dataset_collection_analysis(dataset_collections_path):
 
 if __name__ == "__main__":
 
-    print("Calculating metrics for each dataset collection...")
+    print("\nCalculating metrics for each dataset collection...")
     dataset_collections_path = "evaluations/data_collections"
     collection_stats_df = dataset_collection_analysis(dataset_collections_path)
 

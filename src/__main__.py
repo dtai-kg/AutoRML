@@ -3,10 +3,13 @@ from annotation.mtab import mtab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation
 from logical_source import delete_semantic_table
+from annotation.save_annotations import save_annotations
 import sys
 
 import argparse
 import os
+
+import json
 
 def define_args():
 
@@ -49,6 +52,24 @@ def define_args():
                     default="mtab",
                     type=str,
                     help="Used semantic table annotation system")
+    
+    parser.add_argument("--save_annotations",
+                    action='store_true',
+                    help="Save semantic table annotation system results")
+    
+    parser.add_argument("--annotations_folder",
+                    default="annotations",
+                    type=str,
+                    help="Output annotations folder")
+    
+    parser.add_argument("-oa", "--annotations_output",
+                    default="annotations.json",
+                    type=str,
+                    help="Output annotations mappings")
+    
+    parser.add_argument("-ds", "--delete_sem",
+                    action='store_true',
+                    help="Delete supporting semantically enhanced table after the end of the process")
 
     return parser
 
@@ -82,7 +103,7 @@ def main():
                    os.path.join(args.mappings_folder, args.rml_output))
     print("\nYARRRML and RML mappings succesfully generated!")
     
-    if(args.materialize):
+    if (args.materialize):
 
         if not os.path.exists(args.rdf_folder):
             os.makedirs(args.rdf_folder)
@@ -91,8 +112,17 @@ def main():
         rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))), args.kg_output)
         print("\nRDF graph succesfully generated!")
 
-    # Delete semantic table created for including semantic cell labels
-    delete_semantic_table(os.path.abspath(args.input_table.replace(".csv","-semantic.csv")))
+    if (args.save_annotations):
+        if not os.path.exists(args.annotations_folder):
+            os.makedirs(args.annotations_folder)
+            print(f"Folder '{args.annotations_folder}' created.")
+
+        save_annotations(subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa,
+                         os.path.join(args.annotations_folder, args.annotations_output))
+        
+    if (args.delete_sem):
+         # Delete semantic table created for including semantic cell labels
+        delete_semantic_table(os.path.abspath(args.input_table.replace(".csv","-semantic.csv")))
 
     return
 

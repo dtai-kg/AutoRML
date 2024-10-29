@@ -85,7 +85,7 @@ def standard_annotation_formatter(annotations):
     new_cta = fill_missing_types(new_cta, primary_annotations)
     cqa = []
 
-    print(subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
+    #print(subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
     return (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
 
 def fill_missing_properties(cpa, subject_column, primary_annotations):
