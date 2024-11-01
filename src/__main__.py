@@ -1,4 +1,4 @@
-from annotation.torchic_tab import torchic_tab
+#from annotation.torchic_tab import torchic_tab
 from annotation.mtab import mtab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation

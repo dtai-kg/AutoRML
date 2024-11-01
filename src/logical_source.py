@@ -45,7 +45,7 @@ def generate_sem_table(table, df, cea, primary_annotations):
     # Replace invalid URLs with None
     for idx in ne_cols:
         column = df.columns[idx]
-        df[column] = df[column].apply(lambda x: x if is_valid_url(x) else None)
+        df[column] = df[column].apply(lambda x: x if pd.isna(x) or is_valid_url(x) else None)
 
     df.to_csv(os.path.abspath(table.replace(".csv","-semantic.csv")), index=False)
 

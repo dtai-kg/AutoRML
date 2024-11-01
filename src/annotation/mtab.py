@@ -38,7 +38,7 @@ def mtab(file):
             #print("Error")
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = mtab(file)
         else:
-            print("Mtab retrieved", annotations)
+            #print("Mtab retrieved", annotations)
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = standard_annotation_formatter(annotations)
     else:
         sys.exit(f"Failed to annotate. Status code: {response.status_code}, Response: {response.text}")
@@ -56,6 +56,7 @@ def standard_annotation_formatter(annotations):
     cea = annotations["tables"][0]["semantic"]["cea"]
     new_cea = []
     for cea_annotation in cea:
+        if cea_annotation["target"][0] == 0: continue
         new_cea.append([str(cea_annotation["target"][0]), str((cea_annotation["target"][1])), cea_annotation["annotation"]["wikidata"]])
 
     # Get CPA labels

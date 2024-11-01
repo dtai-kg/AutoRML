@@ -94,7 +94,7 @@ if __name__ == "__main__":
     print("\nConstructing RDF knowledge graphs from all dataset collections...")
 
     dataset_collections_path = "evaluations/data_collections"
-    available_sta_systems = ["mtab", "torchictab"]
+    available_sta_systems = ["torchictab"]
 
     dataset_collections = [folder for folder in os.listdir(dataset_collections_path) if os.path.isdir(os.path.join(dataset_collections_path, folder))]
     for dataset_collection in dataset_collections:

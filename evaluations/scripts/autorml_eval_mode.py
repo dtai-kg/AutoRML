@@ -35,11 +35,11 @@ def autorml_eval_mode(table_path, mappings_collection, rdf_collection, annotatio
 def test_autorml_eval_mode():
 
     #table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/Data/Y3OHOKFF.csv"
-    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/test_collection_wikidata/0WE6LMVO.csv"
+    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/WikidataTables2024R1/BDWQF2CN.csv"
     mappings_collection = "test_mappings"
     rdf_collection = "test_rdf"
     annotation_collection = "test_annotations"
-    sta_system = "torchictab"
+    sta_system = "mtab"
 
     autorml_eval_mode(table_path, mappings_collection, rdf_collection, annotation_collection, sta_system)
 
