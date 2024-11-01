@@ -38,6 +38,7 @@ def mtab(file):
             #print("Error")
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = mtab(file)
         else:
+            print("Mtab retrieved", annotations)
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = standard_annotation_formatter(annotations)
     else:
         sys.exit(f"Failed to annotate. Status code: {response.status_code}, Response: {response.text}")
@@ -55,7 +56,7 @@ def standard_annotation_formatter(annotations):
     cea = annotations["tables"][0]["semantic"]["cea"]
     new_cea = []
     for cea_annotation in cea:
-        new_cea.append([str(cea_annotation["target"][1]), str((cea_annotation["target"][0])-1), cea_annotation["annotation"]["wikidata"]])
+        new_cea.append([str(cea_annotation["target"][0]), str((cea_annotation["target"][1])), cea_annotation["annotation"]["wikidata"]])
 
     # Get CPA labels
     cpa = annotations["tables"][0]["semantic"]["cpa"]
@@ -82,9 +83,10 @@ def standard_annotation_formatter(annotations):
 
     
     new_cpa = fill_missing_properties(new_cpa, subject_column, primary_annotations)
-    new_cta = fill_missing_types(new_cta, primary_annotations)
+    new_cta = fill_missing_types(new_cta, subject_column, primary_annotations)
     cqa = []
 
+    print(new_cea)
     #print(subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
     return (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
 
@@ -105,11 +107,11 @@ def fill_missing_properties(cpa, subject_column, primary_annotations):
 
     return cpa
 
-def fill_missing_types(cta, primary_annotations):
+def fill_missing_types(cta, subject_column, primary_annotations):
 
     ne_cols = []
     for i in range(len(primary_annotations)):
-        if primary_annotations[i] == "NE":
+        if primary_annotations[i] == "NE" or i == subject_column:
             ne_cols.append(i)
 
     ne_cols_with_type = []

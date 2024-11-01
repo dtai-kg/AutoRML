@@ -1,12 +1,31 @@
 import os 
-from rdflib import Graph
+from rdflib import Graph, Literal
+from annotation_accuracy import assess_annotations_accuracy
+from kg_construction import kg_construction_ground_truth
 
-def count_triples(rdf_path):
+def normalize_triple(triple):
+    """Normalize a triple by converting literals to just their values."""
 
-    g = Graph()
-    g.parse(rdf_path)
+    subject, predicate, obj = triple
 
-    return len(g)
+    # If the object is a literal, strip the datatype
+    if isinstance(obj, Literal):
+        obj = obj.value  # Ignore datatype by only using value
+
+    return [subject, predicate, obj]
+
+def assess_graph_accuracy(generated_graph, ground_truth_graph):
+
+    generated_graph_triples = [normalize_triple(triple) for triple in generated_graph]
+    ground_truth_graph_triples = [normalize_triple(triple) for triple in ground_truth_graph]
+
+    for ground_truth_triple in ground_truth_graph_triples:
+        if ground_truth_triple not in generated_graph_triples:
+            print(ground_truth_triple)
+            return False
+
+    return True
+
 
 def get_kg_statistics(kg_collections_path, kg_collection, kg_stats):
 
@@ -16,17 +35,33 @@ def get_kg_statistics(kg_collections_path, kg_collection, kg_stats):
     kg_stats[kg_collection] = {}
 
     for sta_system in sta_systems:
+        print(f"Constructed KGs with {sta_system}:")
         n_triples = 0 
+        n_correctly_annotated_tables = 0
+        n_accurate_graphs = 0
 
         rdf_files = [f for f in os.listdir(os.path.join(collection_path, sta_system)) if f.endswith('.nt')]
         
         for rdf_file in rdf_files:
             #print(rdf_file)
             rdf_path = os.path.join(os.path.join(collection_path, sta_system), rdf_file)
-            n_triples += count_triples(rdf_path)
 
+            generated_graph = Graph()
+            generated_graph.parse(rdf_path)
 
+            n_triples += len(generated_graph)
+
+            annotations_accuracy_check, cea_gt, cpa_gt, cta_gt = assess_annotations_accuracy(rdf_file.split('.')[0], kg_collection, sta_system)
+            if annotations_accuracy_check == True: 
+                n_correctly_annotated_tables += 1
+                ground_truth_graph = kg_construction_ground_truth(rdf_file.split('.')[0], kg_collection, cea_gt, cpa_gt, cta_gt)
+                graph_accuracy_check = assess_graph_accuracy(generated_graph, ground_truth_graph)
+                if graph_accuracy_check == True: n_accurate_graphs += 1
+                
+            
         kg_stats[kg_collection]["Number of Triples w/ " + sta_system] = n_triples
+        kg_stats[kg_collection]["Number of Correctly Annotated Tables w/ " + sta_system] = n_correctly_annotated_tables
+        kg_stats[kg_collection]["Number of Accurate Graphs w/ " + sta_system] = n_accurate_graphs
 
     print(kg_stats)
 

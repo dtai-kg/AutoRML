@@ -39,8 +39,8 @@ def generate_sem_table(table, df, cea, primary_annotations):
         if primary_annotations[i] == "NE":
             ne_cols.append(i)
 
-    for col_idx, row_idx, value in cea:
-        df.iat[int(row_idx), int(col_idx)] = value
+    for row_idx, col_idx, value in cea:
+        df.iat[int(row_idx)-1, int(col_idx)] = value
 
     # Replace invalid URLs with None
     for idx in ne_cols:

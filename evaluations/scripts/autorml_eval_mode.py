@@ -35,7 +35,7 @@ def autorml_eval_mode(table_path, mappings_collection, rdf_collection, annotatio
 def test_autorml_eval_mode():
 
     #table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/Data/Y3OHOKFF.csv"
-    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/test_collection_random/aircraft_models.csv"
+    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/test_collection_wikidata/0WE6LMVO.csv"
     mappings_collection = "test_mappings"
     rdf_collection = "test_rdf"
     annotation_collection = "test_annotations"
