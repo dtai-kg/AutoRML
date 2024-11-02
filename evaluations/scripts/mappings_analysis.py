@@ -80,5 +80,6 @@ if __name__ == "__main__":
     mapping_stats_df = mappings_analysis(mappings_collections_path)
 
     print("\nStatistics found: ")
+    pd.set_option('display.max_columns', None)
     print(mapping_stats_df)
 
