@@ -1,3 +1,4 @@
+import re
 # Define the Predicate-Object Maps for the Subject Column
 def define_subject_column_po_map(subjectTM, subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, col_names):
 
@@ -39,7 +40,7 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
             # If a Named Entity Object Column is of type IRI, we can use its IRIs as reference
             # to define the object maps
             if primary_annotations[i] == "NE" and secondary_annotations[i] == "URL" and cea==[]:
-                subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                         "o": "$({})~iri".format(col_names[i])})
                 continue
 
@@ -47,16 +48,16 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
             if primary_annotations[i] == "NE":
                 #If CEA are available, a reference to the annotation IRIs is used
                 if cea:
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
-                                            "o": [{"value": "$({})".format(col_names[i]), 
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
+                                            "o": [{"value": "$({})".format(ensure_valid_url(col_names[i])), 
                                                    "type": "iri"}]})
                 
                 #If CEA are not available, a dummy template value is used 
                 #This can then be manually processed, be replaced with a blank node 
                 # or a mapping function that calls a service for retrieving CEA
                 else:
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
-                                            "o": [{"value": entity_template_prefix + "$({})".format(col_names[i]), 
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
+                                            "o": [{"value": entity_template_prefix + "$({})".format(ensure_valid_url(col_names[i])), 
                                                    "type": "iri"}]})
                     
             # Literal Object Columns
@@ -67,10 +68,10 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                 # If datatypes are also available we can add them as well.
                 xsd_type = map_datatype_to_xsd(secondary_annotations[i])
                 if xsd_type is None:
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                             "o": [{"value":  "$({})".format(col_names[i])}]})
                 else:
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                             "o": [{"value":  "$({})".format(col_names[i]), 
                                                    "datatype": xsd_type}]})
                 
@@ -85,7 +86,7 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                 
                 # Check for missing annotations
                 if p is None or p[-3:] == "/P1":
-                    p = property_template_prefix + "{}-{}".format(col_names[int(s)], col_names[int(o)])
+                    p = property_template_prefix + "{}-{}".format(ensure_valid_url(col_names[int(s)]), ensure_valid_url(col_names[int(o)]))
 
                 if int(s) in subject_column:
 
@@ -140,7 +141,7 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                 # If a Named Entity Object Column is of type IRI, we can use its IRIs as reference
                 # to define the object maps
                 if primary_annotations[i] == "NE" and secondary_annotations[i] == "URL" and cea==[]:
-                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                    subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                             "o": "$({})~iri".format(col_names[i])})
                     continue
 
@@ -148,7 +149,7 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                 if primary_annotations[i] == "NE":
                     #If CEA are available, a reference to the annotation IRIs is used
                     if cea:
-                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                                 "o": [{"value": "$({})".format(col_names[i]), 
                                                     "type": "iri"}]})
                     
@@ -156,7 +157,7 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                     #This can then be manually processed, be replaced with a blank node 
                     # or a mapping function that calls a service for retrieving CEA
                     else:
-                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                                 "o": [{"value": entity_template_prefix + "$({})".format(col_names[i]), 
                                                     "type": "iri"}]})
                         
@@ -168,15 +169,18 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
                     # If datatypes are also available we can add them as well.
                     xsd_type = map_datatype_to_xsd(secondary_annotations[i])
                     if xsd_type is None:
-                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                                 "o": [{"value":  "$({})".format(col_names[i])}]})
                     else:
-                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(col_names[i]), 
+                        subjectTM["po"].append({"p": property_template_prefix + "s-{}".format(ensure_valid_url(col_names[i])), 
                                                 "o": [{"value":  "$({})".format(col_names[i]), 
                                                     "datatype": xsd_type}]})
             
 
     return subjectTM
+
+
+# def ensure_valid_column
 
 # Define the Predicate-Object Maps for the Subject Column
 def define_object_column_po_map(objectTM, column, cta, col_name):
@@ -192,7 +196,7 @@ def define_object_column_po_map(objectTM, column, cta, col_name):
         # This can then be manually processed, be replaced with a blank node 
         # or a mapping function that calls a service for retrieving CTA
         objectTM["po"].append({"p": rdf_type_shortcut, 
-                               "o": type_template_prefix + col_name})
+                               "o": type_template_prefix + ensure_valid_url(col_name)})
     else:
         for cta_data in cta:
             if int(cta_data[0]) == column:
@@ -203,9 +207,17 @@ def define_object_column_po_map(objectTM, column, cta, col_name):
                                    "o": cta_label})
         else:
             objectTM["po"].append({"p": rdf_type_shortcut, 
-                                   "o": type_template_prefix + col_name})
+                                   "o": type_template_prefix + ensure_valid_url(col_name)})
             
     return objectTM
+
+def ensure_valid_url(string):
+
+    # Replace spaces and remove any non-alphanumeric characters except underscores
+    string = re.sub(r'\s+', '_', string)
+    string = re.sub(r'[^a-zA-Z0-9_]', '', string)
+
+    return string
 
 
 def map_datatype_to_xsd(secondary_annotation):
@@ -218,7 +230,6 @@ def map_datatype_to_xsd(secondary_annotation):
         "INT": "xsd:int",
         "FLOAT": "xsd:float",
         "STRING": "xsd:string",
-        "DATE": "xsd:date",
         "TIME": "xsd:string",
         "PHONE": "xsd:string",
         "URL": "xsd:anyURI",

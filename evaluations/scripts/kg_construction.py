@@ -3,6 +3,7 @@ from autorml_eval_mode import autorml_eval_mode
 import pandas as pd
 from rdflib import Graph, Literal, RDF, URIRef
 from rdflib.namespace import XSD
+from datetime import datetime
 
 def kg_construction_ground_truth(file_name, data_collection, cea_gt, cpa_gt, cta_gt):
 
@@ -14,12 +15,12 @@ def kg_construction_ground_truth(file_name, data_collection, cea_gt, cpa_gt, cta
     cpa_gt_df = pd.DataFrame(cpa_gt, columns = ["Subject_Column", "Object_Column", "Label"])
     cta_gt_df = pd.DataFrame(cta_gt, columns = ["Column", "Label"])
 
-    print(df)
-    print(cea_gt_df)
-    print(cpa_gt_df)
-    print(cta_gt_df)
+    # print(df)
+    # print(cea_gt_df)
+    # print(cpa_gt_df)
+    # print(cta_gt_df)
 
-    gound_truth_graph = Graph()
+    ground_truth_graph = Graph()
 
     ne_columns = list(set(cea_gt_df["Column"].tolist()))
 
@@ -43,7 +44,7 @@ def kg_construction_ground_truth(file_name, data_collection, cea_gt, cpa_gt, cta
         #Semantic type graph construction
         if subject_column_idx in cta_gt_df["Column"].tolist():
             cta_label_URI = URIRef(cta_gt_df.loc[cta_gt_df['Column'] == subject_column_idx, 'Label'].iloc[0])
-            gound_truth_graph.add((cea_label_subject_URI, RDF.type, cta_label_URI))
+            ground_truth_graph.add((cea_label_subject_URI, RDF.type, cta_label_URI))
 
         # #Graph construction using the rest of known properties 
         if subject_column_idx in so_column_pairs:
@@ -60,21 +61,17 @@ def kg_construction_ground_truth(file_name, data_collection, cea_gt, cpa_gt, cta
                     except:
                         continue
                     cea_label_object_URI = URIRef(cea_label_object)
-                    gound_truth_graph.add((cea_label_subject_URI, cpa_label_URI, cea_label_object_URI))
+                    ground_truth_graph.add((cea_label_subject_URI, cpa_label_URI, cea_label_object_URI))
 
                 #Construction for L object column
                 else:
                     object_value = df.iloc[:, object_column_idx].tolist()[row_idx - 1]
                     if pd.isna(object_value): continue
-                    if ":00Z" in str(object_value): 
-                        gound_truth_graph.add((cea_label_subject_URI, cpa_label_URI, Literal(object_value, datatype=XSD.date)))
-                    else:
-                        gound_truth_graph.add((cea_label_subject_URI, cpa_label_URI, Literal(object_value, datatype=None)))
+                    ground_truth_graph.add((cea_label_subject_URI, cpa_label_URI, Literal(object_value, datatype=None)))
 
-    
-    return gound_truth_graph
+    return ground_truth_graph
 
-def kg_construction_autorml(dataset_collections_path, dataset_collection, available_sta_systems):
+def kg_construction_autorml(dataset_collections_path, failed_annotations_path, dataset_collection, available_sta_systems):
 
     collection_path = os.path.join(dataset_collections_path, dataset_collection)
     csv_files = [f for f in os.listdir(collection_path) if f.endswith('.csv')]
@@ -87,6 +84,9 @@ def kg_construction_autorml(dataset_collections_path, dataset_collection, availa
         for sta_system in available_sta_systems:
             if os.path.exists(os.path.join("evaluations/rdf/", rdf_collection, sta_system, table.replace(".csv", ".nt"))):
                 print(f"Table {table} already annotated. Skipping...")
+                continue
+            elif os.path.exists(os.path.join(failed_annotations_path, dataset_collection, sta_system, table)):
+                print(f"Table could not be annotated with {sta_system}. Skipping...")
                 continue
             autorml_eval_mode(table_path=table_path, 
                               mappings_collection=mappings_collection, 
@@ -101,12 +101,14 @@ if __name__ == "__main__":
     print("\nConstructing RDF knowledge graphs from all dataset collections...")
 
     dataset_collections_path = "evaluations/data_collections"
-    available_sta_systems = ["mtab"]
+    failed_annotations_path = "evaluations/failed_annotations"
+    available_sta_systems = ["torchictab"]
 
     dataset_collections = [folder for folder in os.listdir(dataset_collections_path) if os.path.isdir(os.path.join(dataset_collections_path, folder))]
     for dataset_collection in dataset_collections:
+        if "Kaggle" not in dataset_collection: continue
         print(f"\nConstructing RDF knowledge graphs from {dataset_collection}...")
-        kg_construction_autorml(dataset_collections_path, dataset_collection, available_sta_systems)
+        kg_construction_autorml(dataset_collections_path, failed_annotations_path, dataset_collection, available_sta_systems)
         
 
     

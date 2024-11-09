@@ -5,6 +5,8 @@ from urllib.parse import urlparse
 def define_source(mappings, table, cea, primary_annotations):
 
     df = pd.read_csv(table)
+    df.columns = df.columns.str.replace('type', 'typ', regex=True) #avoid yatter 'type' error translation
+    df.columns = df.columns.str.replace('Type', 'typ', regex=True) 
     col_names = df.columns.to_list()
 
     if cea == []:

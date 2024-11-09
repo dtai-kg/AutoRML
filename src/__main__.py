@@ -1,4 +1,4 @@
-#from annotation.torchic_tab import torchic_tab
+from annotation.torchic_tab import torchic_tab
 from annotation.mtab import mtab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation
@@ -90,6 +90,14 @@ def main():
         sys.exit("Selected annotation system not supported. Exiting...")
     print("Tabular annotation completed!\n")
 
+    if (args.save_annotations):
+        if not os.path.exists(args.annotations_folder):
+            os.makedirs(args.annotations_folder)
+            print(f"Folder '{args.annotations_folder}' created.")
+
+        save_annotations(subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa,
+                         os.path.join(args.annotations_folder, args.annotations_output))
+
     if not os.path.exists(args.mappings_folder):
         os.makedirs(args.mappings_folder)
         print(f"Folder '{args.mappings_folder}' created.")
@@ -111,14 +119,6 @@ def main():
 
         rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))), args.kg_output)
         print("\nRDF graph succesfully generated!")
-
-    if (args.save_annotations):
-        if not os.path.exists(args.annotations_folder):
-            os.makedirs(args.annotations_folder)
-            print(f"Folder '{args.annotations_folder}' created.")
-
-        save_annotations(subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa,
-                         os.path.join(args.annotations_folder, args.annotations_output))
         
     if (args.delete_sem):
          # Delete semantic table created for including semantic cell labels

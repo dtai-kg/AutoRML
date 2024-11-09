@@ -30,6 +30,16 @@ def assess_task_accuracy(task, annotations_file_path, gt_path, file_name):
     for annotation in task_gt:
         if annotation not in task_results:
             return False, None
+
+    #Check if there exist excessive cea labels  
+    if task == "cea":
+        cea_gt_colums = []
+        cea_results_columns = []
+        for cea_gt_annotation in task_gt:
+            if cea_gt_annotation[1] not in cea_gt_colums: cea_gt_colums.append(cea_gt_annotation[1])
+        for cea_results_annotation in task_results:
+            if cea_results_annotation[1] not in cea_results_columns: cea_results_columns.append(cea_results_annotation[1])
+        if cea_gt_colums != cea_results_columns: return False, None
         
     return True, task_gt
 

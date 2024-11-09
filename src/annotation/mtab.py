@@ -7,7 +7,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def mtab(file):
 
-    print("Querying the MTab API to retrieve semantic table annotaions...")
+    print("Querying the MTab API to retrieve semantic table annotations...")
     api_url = "https://mtab.kgraph.jp/api/v1/mtab"
 
     # Open the file in binary mode
