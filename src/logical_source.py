@@ -4,9 +4,10 @@ from urllib.parse import urlparse
 
 def define_source(mappings, table, cea, primary_annotations):
 
-    df = pd.read_csv(table)
+    df = load_table(table)
     df.columns = df.columns.str.replace('type', 'typ', regex=True) #avoid yatter 'type' error translation
     df.columns = df.columns.str.replace('Type', 'typ', regex=True) 
+    df.columns = df.columns.str.replace(r'\(.*?\)', '', regex=True) #avoid yatter '()' error translation
     col_names = df.columns.to_list()
 
     if cea == []:
@@ -52,6 +53,24 @@ def generate_sem_table(table, df, cea, primary_annotations):
     df.to_csv(os.path.abspath(table.replace(".csv","-semantic.csv")), index=False)
 
     return 
+
+def load_table(file_path):
+    
+    """Load CSV input file"""
+    
+    # Read the first line
+    with open(file_path, 'r', encoding='utf-8') as file:
+        first_line = file.readline().strip()
+
+    # Check if the first line is entirely integers
+    if all(item.isdigit() for item in first_line.split(',')):
+        # Skip the first line if it contains only integers
+        df = pd.read_csv(file_path, encoding='utf-8', skiprows=1, quotechar='"', skipinitialspace=True)
+    else:
+        # Read the file normally
+        df = pd.read_csv(file_path, encoding='utf-8', quotechar='"', skipinitialspace=True)
+        
+    return df
 
 # Function to validate a URL
 def is_valid_url(url):

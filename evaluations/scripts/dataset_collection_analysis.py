@@ -12,7 +12,7 @@ def get_collection_statistics(dataset_collections_path, dataset_collection, coll
 
     for table in csv_files:
         table_path = os.path.join(collection_path, table)
-        print(table)
+        #print(table)
 
         df = pd.read_csv(table_path, skipinitialspace=True)
         total_rows += len(df)
