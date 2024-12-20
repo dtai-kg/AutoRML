@@ -4,4 +4,5 @@ evaluations/data_collections
 evaluations/mappings
 evaluations/rdf
 evaluations/annotations
+evaluations/ground_truth
 evaluations/stats
