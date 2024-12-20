@@ -33,12 +33,10 @@ def mtab(file):
     if retrieve_success == True:
         # Parse the JSON response (assuming the API returns JSON)
         annotations = response.json()
-        #print(annotations)
+        
         if annotations["tables"][0]["status"] == "Error":
-            #print("Error")
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = mtab(file)
         else:
-            #print("Mtab retrieved", annotations)
             (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa) = standard_annotation_formatter(annotations)
     else:
         sys.exit(f"Failed to annotate. Status code: {response.status_code}, Response: {response.text}")
@@ -87,8 +85,6 @@ def standard_annotation_formatter(annotations):
     new_cta = fill_missing_types(new_cta, subject_column, primary_annotations)
     cqa = []
 
-    print(new_cea)
-    #print(subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
     return (subject_column, primary_annotations, secondary_annotations, new_cea, new_cpa, new_cta, cqa)
 
 def fill_missing_properties(cpa, subject_column, primary_annotations):
