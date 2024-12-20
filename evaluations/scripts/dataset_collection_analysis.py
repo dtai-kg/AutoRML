@@ -35,7 +35,7 @@ def dataset_collection_analysis(dataset_collections_path):
     collection_stats = {}
     
     for dataset_collection in dataset_collections:
-        print(f"Calculating metrics for {dataset_collection}...")
+        print(f"Calculating dataset metrics for {dataset_collection}...")
         collection_stats = get_collection_statistics(dataset_collections_path, dataset_collection, collection_stats)
 
     collection_stats_df = pd.DataFrame.from_dict(collection_stats, orient='index')

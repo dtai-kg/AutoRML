@@ -71,7 +71,7 @@ def kg_construction_ground_truth(file_name, data_collection, cea_gt, cpa_gt, cta
 
     return ground_truth_graph
 
-def kg_construction_autorml(dataset_collections_path, failed_annotations_path, dataset_collection, available_sta_systems):
+def kg_construction_autorml(dataset_collections_path, dataset_collection, available_sta_systems):
 
     collection_path = os.path.join(dataset_collections_path, dataset_collection)
     csv_files = [f for f in os.listdir(collection_path) if f.endswith('.csv')]
@@ -85,9 +85,9 @@ def kg_construction_autorml(dataset_collections_path, failed_annotations_path, d
             if os.path.exists(os.path.join("evaluations/rdf/", rdf_collection, sta_system, table.replace(".csv", ".nt"))):
                 print(f"Table {table} already annotated. Skipping...")
                 continue
-            elif os.path.exists(os.path.join(failed_annotations_path, dataset_collection, sta_system, table)):
-                print(f"Table could not be annotated with {sta_system}. Skipping...")
-                continue
+            # elif os.path.exists(os.path.join(failed_annotations_path, dataset_collection, sta_system, table)):
+            #     print(f"Table could not be annotated with {sta_system}. Skipping...")
+            #     continue
             autorml_eval_mode(table_path=table_path, 
                               mappings_collection=mappings_collection, 
                               rdf_collection=rdf_collection, 
@@ -101,14 +101,13 @@ if __name__ == "__main__":
     print("\nConstructing RDF knowledge graphs from all dataset collections...")
 
     dataset_collections_path = "evaluations/data_collections"
-    failed_annotations_path = "evaluations/failed_annotations"
-    available_sta_systems = ["torchictab"]
+    #failed_annotations_path = "evaluations/failed_annotations"
+    available_sta_systems = ["mtab"] # "torchictab" is still closed source
 
     dataset_collections = [folder for folder in os.listdir(dataset_collections_path) if os.path.isdir(os.path.join(dataset_collections_path, folder))]
     for dataset_collection in dataset_collections:
-        if "Kaggle" not in dataset_collection: continue
         print(f"\nConstructing RDF knowledge graphs from {dataset_collection}...")
-        kg_construction_autorml(dataset_collections_path, failed_annotations_path, dataset_collection, available_sta_systems)
+        kg_construction_autorml(dataset_collections_path, dataset_collection, available_sta_systems)
         
 
     

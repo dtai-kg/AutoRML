@@ -36,7 +36,7 @@ def test_autorml_eval_mode():
 
     #table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/Data/Y3OHOKFF.csv"
     #table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/Kaggle_Diverse_CSV_DS/addresses.csv"
-    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/Kaggle_Diverse_CSV_DS/deniro_2.csv"
+    table_path = "/Users/ioannisdasoulas/Desktop/AutoRML/autoRML/evaluations/data_collections/GTFS-Madrid/FREQUENCIES.csv"
     mappings_collection = "test_mappings"
     rdf_collection = "test_rdf"
     annotation_collection = "test_annotations"

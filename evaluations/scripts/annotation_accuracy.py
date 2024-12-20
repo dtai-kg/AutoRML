@@ -46,16 +46,16 @@ def assess_task_accuracy(task, annotations_file_path, gt_path, file_name):
 def assess_annotations_accuracy(file_name, data_collection, sta_system):
 
     annotations_path = "evaluations/annotations"
-    expert_annotations_path = "evaluations/expert_annotations"
+    ground_truth_path = "evaluations/ground_truth"
 
     cea_gt_filename = "cea_gt.csv"
     cpa_gt_filename = "cpa_gt.csv"
     cta_gt_filename = "cta_gt.csv"
 
     annotations_file_path = os.path.join(annotations_path, data_collection, sta_system, file_name + ".json")
-    cea_gt_path = os.path.join(expert_annotations_path, data_collection, cea_gt_filename)
-    cpa_gt_path = os.path.join(expert_annotations_path, data_collection, cpa_gt_filename)
-    cta_gt_path = os.path.join(expert_annotations_path, data_collection, cta_gt_filename)
+    cea_gt_path = os.path.join(ground_truth_path, data_collection, cea_gt_filename)
+    cpa_gt_path = os.path.join(ground_truth_path, data_collection, cpa_gt_filename)
+    cta_gt_path = os.path.join(ground_truth_path, data_collection, cta_gt_filename)
 
     cta_check, cta_gt = assess_task_accuracy("cta", annotations_file_path, cta_gt_path, file_name)
     if cta_check == False: return False, None, None, None
