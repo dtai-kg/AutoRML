@@ -37,7 +37,7 @@ Options:
 
 ## Example usage 
 
-You can find some tables to test AutoRML in the examples folder. To run AutoRML for one of the examples:
+You can find some tables to test AutoRML in the 'examples' folder. To run AutoRML for one of the examples:
 
     cd autoRML
     python3 src -i "examples/tables/cities.csv" -m -sa -af "examples/annotations" -mf "examples/mappings" -rf "examples/rdf" -ds
@@ -52,5 +52,6 @@ To see AutoRML results for different dataset collections and semantic table anno
 
 ## Contact
 
-Ioannis Dasoulas: ioannis.dasoulas@kuleuven.be
+Ioannis Dasoulas: ioannis.dasoulas@kuleuven.be 
+
 Anastasia Dimou: anastasia.dimou@kuleuven.be
