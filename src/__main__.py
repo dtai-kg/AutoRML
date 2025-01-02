@@ -118,7 +118,7 @@ def main():
             os.makedirs(args.rdf_folder)
             print(f"Folder '{args.rdf_folder}' created.")
 
-        rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))), args.kg_output)
+        rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))), args.rdf_output)
         print("\nRDF graph succesfully generated!")
         
     if (args.delete_sem):
