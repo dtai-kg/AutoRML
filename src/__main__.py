@@ -29,12 +29,12 @@ def define_args():
                     type=str,
                     help="Output RML mappings")
     
-    parser.add_argument("-okg", "--kg_output",
+    parser.add_argument("-okg", "--rdf_output",
                     default="kg.nt",
                     type=str,
                     help="Output RDF file")
     
-    parser.add_argument("--mappings_folder",
+    parser.add_argument("-mf", "--mappings_folder",
                     default="mappings",
                     type=str,
                     help="Output mappings folder")
@@ -43,21 +43,21 @@ def define_args():
                     action='store_true',
                     help="Generate RDF")
     
-    parser.add_argument("--rdf_folder",
+    parser.add_argument("-rf", "--rdf_folder",
                     default="rdf",
                     type=str,
                     help="Output RDF folder")
     
-    parser.add_argument("--sta_system",
+    parser.add_argument("-sta", "--sta_system",
                     default="mtab",
                     type=str,
                     help="Used semantic table annotation system")
     
-    parser.add_argument("--save_annotations",
+    parser.add_argument("-sa", "--save_annotations",
                     action='store_true',
                     help="Save semantic table annotation system results")
     
-    parser.add_argument("--annotations_folder",
+    parser.add_argument("-af", "--annotations_folder",
                     default="annotations",
                     type=str,
                     help="Output annotations folder")
@@ -69,7 +69,7 @@ def define_args():
     
     parser.add_argument("-ds", "--delete_sem",
                     action='store_true',
-                    help="Delete supporting semantically enhanced table after the end of the process")
+                    help="Delete supporting semantically enhanced table after termination")
 
     return parser
 
