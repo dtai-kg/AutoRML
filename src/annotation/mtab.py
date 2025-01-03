@@ -24,7 +24,7 @@ def mtab(file):
         retrieve_success = False
         for attempt in range(retry_count):
             try:
-                response = session.post(api_url, files=files, verify=False, timeout=(5, 30))
+                response = session.post(api_url, files=files, verify=False, timeout=(5, 10000))
                 response.raise_for_status()
                 retrieve_success = True
                 break
