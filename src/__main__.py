@@ -5,11 +5,9 @@ from materialize import rdf_generation
 from logical_source import delete_semantic_table
 from annotation.save_annotations import save_annotations
 import sys
-
 import argparse
 import os
 
-import json
 
 def define_args():
 
@@ -79,10 +77,10 @@ def main():
     args = define_args().parse_args()
     
     # Extract annotations from Semantic Annotation System
-    # TorchicTab system is used, other annotation systems can be imported as well
     if args.sta_system == "mtab":
         print("Annotating table using MTab:", args.input_table, "...")
         (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = mtab(args.input_table)
+
     #Commenting out TorchicTab option since it still closed source.
     # elif args.sta_system == "torchictab":
     #     print("Annotating table using TorchicTab:", args.input_table, "...")
@@ -91,6 +89,7 @@ def main():
         sys.exit("Selected annotation system not supported. Exiting...")
     print("Tabular annotation completed!\n")
 
+
     if (args.save_annotations):
         if not os.path.exists(args.annotations_folder):
             os.makedirs(args.annotations_folder)
@@ -98,19 +97,23 @@ def main():
 
         save_annotations(subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa,
                          os.path.join(args.annotations_folder, args.annotations_output))
+        
 
     if not os.path.exists(args.mappings_folder):
         os.makedirs(args.mappings_folder)
         print(f"Folder '{args.mappings_folder}' created.")
+
 
     mapping_synthesis(args.input_table, 
                             os.path.join(args.mappings_folder, args.yarrml_output), 
                             subject_column, primary_annotations, secondary_annotations, 
                             cea, cpa, cta, cqa)
     
+    
     rml_generation(os.path.join(args.mappings_folder, args.yarrml_output), 
                    os.path.join(args.mappings_folder, args.rml_output))
     print("\nYARRRML and RML mappings succesfully generated!")
+
     
     if (args.materialize):
 
@@ -120,6 +123,7 @@ def main():
 
         rdf_generation(os.path.join(args.rdf_folder, 'config.ini'), os.path.abspath(str(os.path.join(args.mappings_folder, args.rml_output))), args.rdf_output)
         print("\nRDF graph succesfully generated!")
+        
         
     if (args.delete_sem):
          # Delete semantic table created for including semantic cell labels

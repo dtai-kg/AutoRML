@@ -180,7 +180,6 @@ def define_subject_column_po_map(subjectTM, subject_column, primary_annotations,
     return subjectTM
 
 
-# def ensure_valid_column
 
 # Define the Predicate-Object Maps for the Subject Column
 def define_object_column_po_map(objectTM, column, cta, col_name):
@@ -210,6 +209,7 @@ def define_object_column_po_map(objectTM, column, cta, col_name):
                                    "o": type_template_prefix + ensure_valid_url(col_name)})
             
     return objectTM
+
 
 def ensure_valid_url(string):
 

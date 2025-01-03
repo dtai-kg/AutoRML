@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from urllib.parse import urlparse
 
+
 def define_source(mappings, table, cea, primary_annotations):
 
     df = load_table(table)
@@ -14,7 +15,7 @@ def define_source(mappings, table, cea, primary_annotations):
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = os.path.abspath(table)
+        mappings["sources"]["table"]["access"] = os.path.abspath(table).replace("\\","\\\\")
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
     
@@ -24,16 +25,17 @@ def define_source(mappings, table, cea, primary_annotations):
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = os.path.abspath(table)
+        mappings["sources"]["table"]["access"] = os.path.abspath(table).replace("\\","\\\\")
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
 
         mappings["sources"]["sem-table"] = {}
-        mappings["sources"]["sem-table"]["access"] = os.path.abspath(table.replace(".csv","-semantic.csv"))
+        mappings["sources"]["sem-table"]["access"] = os.path.abspath(table.replace(".csv","-semantic.csv")).replace("\\","\\\\")
         mappings["sources"]["sem-table"]["referenceFormulation"] = "csv"
         mappings["sources"]["sem-table"]["iterator"] = "$"
 
     return mappings, col_names
+
 
 def generate_sem_table(table, df, cea, primary_annotations):
 
@@ -54,6 +56,7 @@ def generate_sem_table(table, df, cea, primary_annotations):
 
     return 
 
+
 def load_table(file_path):
     
     """Load CSV input file"""
@@ -72,6 +75,7 @@ def load_table(file_path):
         
     return df
 
+
 # Function to validate a URL
 def is_valid_url(url):
     try:
@@ -79,6 +83,7 @@ def is_valid_url(url):
         return all([result.scheme, result.netloc])
     except ValueError:
         return False
+    
     
 def delete_semantic_table(semantic_table_path):
 

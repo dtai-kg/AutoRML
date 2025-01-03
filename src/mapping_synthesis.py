@@ -4,6 +4,7 @@ from term_maps import define_term_maps
 from ruamel.yaml import YAML
 import yatter
 
+
 def mapping_synthesis(table, yarrrml_output_location,
                       subject_column, primary_annotations, secondary_annotations, 
                       cea, cpa, cta, cqa):
@@ -30,6 +31,7 @@ def mapping_synthesis(table, yarrrml_output_location,
     print("YARRRML mappings succesfully created!")
     
     return 
+
 
 def rml_generation(yarrrml_output_location, rml_output_location):
 
