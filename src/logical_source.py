@@ -15,7 +15,7 @@ def define_source(mappings, table, cea, primary_annotations):
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = os.path.abspath(table).replace("\\","\\\\")
+        mappings["sources"]["table"]["access"] = table.replace("\\","\\\\")
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
     
@@ -25,12 +25,12 @@ def define_source(mappings, table, cea, primary_annotations):
         mappings["sources"] = {}
 
         mappings["sources"]["table"] = {}
-        mappings["sources"]["table"]["access"] = os.path.abspath(table).replace("\\","\\\\")
+        mappings["sources"]["table"]["access"] = table.replace("\\","\\\\")
         mappings["sources"]["table"]["referenceFormulation"] = "csv"
         mappings["sources"]["table"]["iterator"] = "$"
 
         mappings["sources"]["sem-table"] = {}
-        mappings["sources"]["sem-table"]["access"] = os.path.abspath(table.replace(".csv","-semantic.csv")).replace("\\","\\\\")
+        mappings["sources"]["sem-table"]["access"] = table.replace(".csv","-semantic.csv").replace("\\","\\\\")
         mappings["sources"]["sem-table"]["referenceFormulation"] = "csv"
         mappings["sources"]["sem-table"]["iterator"] = "$"
 
