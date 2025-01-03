@@ -10,23 +10,27 @@ def mtab(file):
     print("Querying the MTab API to retrieve semantic table annotations...")
     api_url = "https://mtab.kgraph.jp/api/v1/mtab"
 
+    retry_count = 10
+    backoff_factor = 2
+    session = requests.Session()
+
     # Open the file in binary mode
     with open(file, 'rb') as table:
         # Create a dictionary for the file parameter to send
         files = {'file': table}
         
         # Make the POST request to the API
-        retry_count = 10
-        backoff_factor = 2
+        response = None
         retrieve_success = False
         for attempt in range(retry_count):
             try:
-                response = requests.post(api_url, files=files, verify=False)
+                response = session.post(api_url, files=files, verify=False, timeout=(5, 30))
                 response.raise_for_status()
                 retrieve_success = True
                 break
             except requests.exceptions.RequestException as e:
-                time.sleep(backoff_factor**attempt)
+                wait_time = backoff_factor**attempt + (time.perf_counter() % 1)
+                time.sleep(wait_time)
                 retrieve_success = False
         
     # Check the status of the request
