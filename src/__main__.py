@@ -1,4 +1,4 @@
-#from annotation.torchic_tab import torchic_tab
+from annotation.torchic_tab import torchic_tab
 from annotation.mtab import mtab
 from mapping_synthesis import mapping_synthesis, rml_generation
 from materialize import rdf_generation
@@ -47,7 +47,7 @@ def define_args():
                     help="Output RDF folder")
     
     parser.add_argument("-sta", "--sta_system",
-                    default="mtab",
+                    default="torchictab",
                     type=str,
                     help="Used semantic table annotation system")
     
@@ -82,9 +82,9 @@ def main():
         (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = mtab(args.input_table)
 
     #Commenting out TorchicTab option since it still closed source.
-    # elif args.sta_system == "torchictab":
-    #     print("Annotating table using TorchicTab:", args.input_table, "...")
-    #     (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = torchic_tab(args.input_table)
+    elif args.sta_system == "torchictab":
+        print("Annotating table using TorchicTab:", args.input_table, "...")
+        (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = torchic_tab(args.input_table)
     else:
         sys.exit("Selected annotation system not supported. Exiting...")
     print("Tabular annotation completed!\n")
