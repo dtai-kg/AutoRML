@@ -81,7 +81,6 @@ def main():
         print("Annotating table using MTab:", args.input_table, "...")
         (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = mtab(args.input_table)
 
-    #Commenting out TorchicTab option since it still closed source.
     elif args.sta_system == "torchictab":
         print("Annotating table using TorchicTab:", args.input_table, "...")
         (subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, cqa) = torchic_tab(args.input_table)
