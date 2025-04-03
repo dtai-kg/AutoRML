@@ -6,3 +6,4 @@ evaluations/rdf
 evaluations/annotations
 evaluations/ground_truth
 evaluations/stats
+/autorml.egg-info

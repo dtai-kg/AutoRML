@@ -1,9 +1,10 @@
-from annotation.torchic_tab import torchic_tab
-from annotation.mtab import mtab
-from mapping_synthesis import mapping_synthesis, rml_generation
-from materialize import rdf_generation
-from logical_source import delete_semantic_table
-from annotation.save_annotations import save_annotations
+from .annotation.torchic_tab import torchic_tab
+from .annotation.mtab import mtab
+from .mapping_synthesis import mapping_synthesis, rml_generation
+from .materialize import rdf_generation
+from .logical_source import delete_semantic_table
+from .annotation.save_annotations import save_annotations
+
 import sys
 import argparse
 import os

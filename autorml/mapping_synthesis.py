@@ -1,5 +1,5 @@
-from logical_source import define_source
-from term_maps import define_term_maps
+from .logical_source import define_source
+from .term_maps import define_term_maps
 
 from ruamel.yaml import YAML
 import yatter

@@ -1,5 +1,5 @@
-from subject_map import define_subject_column_subject_map, define_object_column_subject_map 
-from predicate_object_map import define_subject_column_po_map, define_object_column_po_map
+from .subject_map import define_subject_column_subject_map, define_object_column_subject_map 
+from .predicate_object_map import define_subject_column_po_map, define_object_column_po_map
 
 def define_term_maps(mappings, subject_column, primary_annotations, secondary_annotations, cea, cpa, cta, col_names):
 
