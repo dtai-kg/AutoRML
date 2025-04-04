@@ -13,45 +13,20 @@ AutoRML can be used with different semantic table annotation systems. It has bee
 
 ## Installation 
 
-Python versions 3.9, 3.10, and 3.11 are tested and recommended.
-MTab has dropped support, so TorchicTab installation is now required to run AutoRML.
+Python versions 3.9, 3.10, and 3.11 are tested and recommended. In case of conflicts, create a new virtual environment. For example, if you use conda, run:
 
-1. Create a Python virtual environment with Python 3.9, 3.10 or 3.11. For example, if you use conda, run:
+```bash
+conda create -n autorml_env python=3.11
+```
+```bash
+conda activate -n autorml_env
+```
 
-    ```bash
-    conda create -n autorml_env python=3.11
-    ```
-    ```bash
-    conda activate -n autorml_env
-    ```
+AutoRML installation:
 
-2. TorchicTab Installation
-
-    ```bash
-    git clone https://gitlab.kuleuven.be/dtai/kg/code/SemTab/semtabr1-wikidata.git 
-    ```
-
-    ```bash
-    cd semtabr1-wikidata
-    ```
-
-    ```badh
-    pip install -e .
-    ```
-
-3. AutoRML installation (current repository)
-
-    ```bash
-    git clone https://gitlab.kuleuven.be/dtai/kg/code/rml/autorml.git
-    ```
-
-    ```bash
-    cd autorml
-    ```
-
-    ```bash
-    pip install -e .
-    ```
+```bash
+pip install autorml
+```
 
 
 ## Usage
