@@ -19,7 +19,7 @@ Python versions 3.9, 3.10, and 3.11 are tested and recommended. In case of confl
 conda create -n autorml_env python=3.11
 ```
 ```bash
-conda activate -n autorml_env
+conda activate autorml_env
 ```
 
 AutoRML installation:
