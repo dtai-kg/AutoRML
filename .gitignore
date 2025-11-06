@@ -8,3 +8,4 @@ evaluations/ground_truth
 evaluations/stats
 /autorml.egg-info
 /dist
+/build
