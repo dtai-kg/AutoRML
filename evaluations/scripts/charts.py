@@ -47,7 +47,7 @@ def generate_automation_chart():
     # Stacked bars for mtab
     ax.bar(x - bar_width / 2, mtab_fully, width=bar_width, label='Fully Automated\n(w/ mtab)', color='#FF7F0E')
     ax.bar(x - bar_width / 2, mtab_semi, width=bar_width, bottom=mtab_fully, label='Semi-Automated\n(w/ mtab)', color='#FFBB78')
-    ax.bar(x - bar_width / 2, mtab_failed, width=bar_width, bottom=mtab_fully + mtab_semi, label='Failed\n(w/ mtab)', color='#F5F5F5')
+    ax.bar(x - bar_width / 2, mtab_failed, width=bar_width, bottom=mtab_fully + mtab_semi, label='Failed\n(w/ mtab)', color="#E7C4A8AE")
 
     # Stacked bars for torchictab
     ax.bar(x + bar_width / 2, torchictab_fully, width=bar_width, label='Fully Automated\n(w/ torchictab)', color='#1F77B4')
