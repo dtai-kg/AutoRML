@@ -49,6 +49,8 @@ Options:
 -rf, --rdf_folder                   Output RDF folder (default: rdf)
 -okg, --rdf_output                  Output RDF file (default: kg.nt)
 -ds, --delete_sem                   Delete supporting semantically enhanced table after termination
+-la, --load_annotations             Load semantic table annotation system results from annotations folder
+-ia, --annotations_input            Input annotations file
 ```
 
 

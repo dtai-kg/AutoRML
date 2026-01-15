@@ -1,13 +1,13 @@
+import os
+import argparse
+import sys
 from autorml.annotation.torchic_tab import torchic_tab
 from autorml.annotation.mtab import mtab
 from autorml.mapping_synthesis import mapping_synthesis, rml_generation
 from autorml.materialize import rdf_generation
 from autorml.logical_source import delete_semantic_table
 from autorml.annotation.save_annotations import save_annotations
-
-import sys
-import argparse
-import os
+from autorml.annotation.load_annotations import load_annotations
 
 
 def define_args():
@@ -54,7 +54,8 @@ def define_args():
 
     parser.add_argument("-sa", "--save_annotations",
                         action='store_true',
-                        help="Save semantic table annotation system results")
+                        help="Save semantic table annotation system "
+                        "results to annotations folder")
 
     parser.add_argument("-af", "--annotations_folder",
                         default="annotations",
@@ -64,12 +65,22 @@ def define_args():
     parser.add_argument("-oa", "--annotations_output",
                         default="annotations.json",
                         type=str,
-                        help="Output annotations mappings")
+                        help="Output annotations file")
 
     parser.add_argument("-ds", "--delete_sem",
                         action='store_true',
                         help="Delete supporting semantically enhanced"
                         " table after termination")
+
+    parser.add_argument("-la", "--load_annotations",
+                        action='store_true',
+                        help="Load semantic table annotation system"
+                        " results from annotations folder")
+
+    parser.add_argument("-ia", "-annotations_input",
+                        default="annotations.json",
+                        type=str,
+                        help="Input annotations file")
 
     return parser
 
@@ -79,19 +90,27 @@ def main():
     print("AutoRML initialized!\n")
     args = define_args().parse_args()
 
-    # Extract annotations from Semantic Annotation System
-    if args.sta_system == "mtab":
-        print("Annotating table using MTab:", args.input_table, "...")
+    # Extract annotations from Semantic Annotation System or load them
+    if args.load_annotations:
+        annotations_path = os.path.join(args.annotations_folder,
+                                        args.annotations_output)
         (subject_column, primary_annotations, secondary_annotations,
-         cea, cpa, cta, cqa) = mtab(args.input_table)
+         cea, cpa, cta, cqa) = load_annotations(annotations_path)
 
-    elif args.sta_system == "torchictab":
-        print("Annotating table using TorchicTab:", args.input_table, "...")
-        (subject_column, primary_annotations, secondary_annotations,
-         cea, cpa, cta, cqa) = torchic_tab(args.input_table)
     else:
-        sys.exit("Selected annotation system not supported. Exiting...")
-    print("Tabular annotation completed!\n")
+        if args.sta_system == "mtab":
+            print("Annotating table using MTab:", args.input_table, "...")
+            (subject_column, primary_annotations, secondary_annotations,
+             cea, cpa, cta, cqa) = mtab(args.input_table)
+
+        elif args.sta_system == "torchictab":
+            print("Annotating table using TorchicTab:",
+                  args.input_table, "...")
+            (subject_column, primary_annotations, secondary_annotations,
+             cea, cpa, cta, cqa) = torchic_tab(args.input_table)
+        else:
+            sys.exit("Selected annotation system not supported. Exiting...")
+        print("Tabular annotation completed!\n")
 
     if (args.save_annotations):
         if not os.path.exists(args.annotations_folder):
@@ -125,7 +144,7 @@ def main():
         rdf_generation(os.path.join(args.rdf_folder, 'config.ini'),
                        os.path.abspath(
             str(os.path.join(args.mappings_folder, args.rml_output))),
-                       args.rdf_output)
+            args.rdf_output)
         print("\nRDF graph succesfully generated!")
 
     if (args.delete_sem):
