@@ -5,7 +5,7 @@ with open("requirements.txt") as f:
 
 setup(
     name='autorml',
-    version='0.1.5',
+    version='0.1.6',
     packages=["autorml", "autorml.annotation"],
     install_requires=required,
     author="Ioannis Dasoulas",

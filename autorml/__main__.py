@@ -77,7 +77,7 @@ def define_args():
                         help="Load semantic table annotation system"
                         " results from annotations folder")
 
-    parser.add_argument("-ia", "-annotations_input",
+    parser.add_argument("-ia", "--annotations_input",
                         default="annotations.json",
                         type=str,
                         help="Input annotations file")
