@@ -93,7 +93,7 @@ def main():
     # Extract annotations from Semantic Annotation System or load them
     if args.load_annotations:
         annotations_path = os.path.join(args.annotations_folder,
-                                        args.annotations_output)
+                                        args.annotations_input)
         (subject_column, primary_annotations, secondary_annotations,
          cea, cpa, cta, cqa) = load_annotations(annotations_path)
 
