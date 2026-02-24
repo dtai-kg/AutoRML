@@ -1,0 +1,62 @@
+authors: AutoRML
+
+sources:
+  table:
+    access: data/aircraft_models_enriched.csv
+    referenceFormulation: csv
+    iterator: $
+  sem-table:
+    access: data/aircraft_models_enriched-semantic.csv
+    referenceFormulation: csv
+    iterator: $
+
+mappings:
+  subjectTM:
+    sources:
+      - sem-table
+    s: $(aircraft_model)
+    po:
+      - p: a
+        o: http://www.wikidata.org/entity/Q15056993
+      - p: http://www.wikidata.org/prop/direct/P137
+        o:
+          - value: $(airline)
+            type: iri
+      - p: http://example.com/property/aircraft_model-creation_date
+        o:
+          - value: $(creation_date)
+      - p: http://www.wikidata.org/prop/direct/P606
+        o:
+          - value: $(first_flight)
+      - p: http://www.wikidata.org/prop/direct/P2254
+        o:
+          - value: $(maximum_operating_altitude)
+            datatype: xsd:float
+      - p: http://www.wikidata.org/prop/direct/P2048
+        o:
+          - value: $(height)
+            datatype: xsd:float
+      - p: http://www.wikidata.org/prop/direct/P2043
+        o:
+          - value: $(length)
+            datatype: xsd:float
+      - p: http://www.wikidata.org/prop/direct/P2050
+        o:
+          - value: $(wingspan)
+            datatype: xsd:float
+      - p: http://www.wikidata.org/prop/direct/P1092
+        o:
+          - value: $(total_produced)
+            datatype: xsd:int
+      - p: http://www.wikidata.org/prop/direct/P1083
+        o:
+          - value: $(maximum_capacity)
+            datatype: xsd:int
+  airlineTM:
+    sources:
+      - sem-table
+    s: $(airline)
+    po:
+      - p: a
+        o: http://www.wikidata.org/entity/Q46970
+
